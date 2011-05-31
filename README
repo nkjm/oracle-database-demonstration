@@ -1,0 +1,6 @@
+SOFTWARE:
+    Oracle Database Demonstration
+
+Overview:
+    This is a web UI to demonstrate how Database as a Service can be implemented with Oracle Database.
+    This program is written mainly in php and partially in python.
