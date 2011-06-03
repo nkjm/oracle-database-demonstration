@@ -13,6 +13,7 @@ Class Resource {
             array_push($this->err_msg, "コンシューマグループの作成に失敗しました。");
             return(FALSE);
         }
+        sleep(1);
         return(TRUE);
     }
 
@@ -49,6 +50,7 @@ END;";
             array_push($this->err_msg, "リソースプランの作成に失敗しました。");
             return(FALSE);
         }
+        sleep(1);
         return(TRUE);
     }
 
@@ -69,6 +71,7 @@ END;";
             array_push($this->err_msg, "リソースプランの有効化に失敗しました。");
             return(FALSE);
         }
+        sleep(1);
         return(TRUE);
     }
 

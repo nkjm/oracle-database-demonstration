@@ -21,6 +21,7 @@ require_once './Drive.php';
 require_once './Customer.php';
 require_once './Site.php';
 require_once './Flash.php';
+require_once './Snapshot.php';
 $parse = new Parse();
 
 
@@ -115,6 +116,7 @@ if (isset($_REQUEST["op"])) {
 //// Check if Database has been setup for Oracle Database Cloud.
 $role = new Role();
 $resource = new Resource();
+$snapshot = new Snapshot();
 
 // Check if Role has been created.
 $flag_role_required = FALSE;
@@ -148,6 +150,14 @@ $result = $resource->status_resource_plan($conn_db, RESOURCE_PLAN);
 if ($result == 'DISABLED') {
     $flag_resource_plan_disabled = TRUE;
     echo "<div id='flag_resource_plan_disabled' style='display:none;'>TRUE</div>\n";
+}
+
+// Check if Undo Retention has been configured.
+$flag_snapshot_retention_dirty = FALSE;
+$result = $snapshot->fetch_retention($conn_db);
+if ($result != SNAPSHOT_RETENTION) {
+    $flag_snapshot_retention_dirty = TRUE;
+    echo "<div id='flag_snapshot_retention_dirty' style='display:none;'>TRUE</div>\n";
 }
 
 // Sanitize
@@ -225,6 +235,12 @@ switch ($op) {
         if ($flag_resource_plan_disabled == TRUE) {
             $result = $resource->enable_resource_plan($conn_db, RESOURCE_PLAN);
             err_chk($result, $resource->err_msg);
+        }
+
+        // Configure Undo Retention for Snapshots..
+        if ($flag_snapshot_retention_dirty == TRUE) {
+            $result = $snapshot->set_retention($conn_db, SNAPSHOT_RETENTION);
+            err_chk($result, $snapshot->err_msg);
         }
         break;
     case 'add_storage':

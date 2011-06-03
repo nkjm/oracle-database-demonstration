@@ -5,20 +5,20 @@
 ***/
 
 // DB Login Information
-define("DB_HOSTNAME", ''); 
-define("DB_SCANNAME", ''); 
-define("DB_USER", "");
-define("DB_PASSWORD", "");
+define("DB_HOSTNAME", '');
+define("DB_SCANNAME", '');
+define("DB_USER", '');
+define("DB_PASSWORD", '');
 define("DB_SERVICE", '');
 
 // ASM Login Information
-define("ASM_HOSTNAME", ''); 
+define("ASM_HOSTNAME", '');
 define("ASM_USER", '');
 define("ASM_PASSWORD", '');
-define("ASM_SERVICE", "");
+define("ASM_SERVICE", '');
 
 // Default Diskgroup
-define("DEFAULT_DG", "");
+define("DEFAULT_DG", 'DATA');
 
 // Default Storage Quota
 define("DEFAULT_QUOTA", "10G");
@@ -36,6 +36,8 @@ $array_consumer_group = array("HIGH", "MID", "LOW");
 $array_cpu_utilization_limit = array("HIGH" => "100", "MID" => "50", "LOW" => "10");
 $array_compression = array('on', 'off');
 
+// Undo Retention for Snapshots
+define("SNAPSHOT_RETENTION", '604800');
 
 
 /***

@@ -359,8 +359,9 @@ $(function(){
     var $flag_consumer_group_required = $('#flag_consumer_group_required').text();
     var $flag_resource_plan_required = $('#flag_resource_plan_required').text();
     var $flag_resource_plan_disabled = $('#flag_resource_plan_disabled').text();
+    var $flag_snapshot_retention_dirty = $('#flag_snapshot_retention_dirty').text();
 
-    if ($flag_role_required == 'TRUE' || $flag_consumer_group_required == 'TRUE' || $flag_resource_plan_required == 'TRUE' || $flag_resource_plan_disabled == 'TRUE'){
+    if ($flag_role_required == 'TRUE' || $flag_consumer_group_required == 'TRUE' || $flag_resource_plan_required == 'TRUE' || $flag_resource_plan_disabled == 'TRUE' || $flag_snapshot_retention_dirty == 'TRUE'){
     	$.confirm({
             'title'		: 'Confirmation',
             'message'	: 'Database Cloud needs to be initialized.<br />Initialization does not destroy any existing data.<br />Proceed?',
