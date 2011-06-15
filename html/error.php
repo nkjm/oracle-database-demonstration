@@ -15,9 +15,15 @@
 <body>
 
 <?php
-if ($error->skip == TRUE) {
-    goto start_js;
+if (count($error->msg_list) > 0) {
+    foreach ($error->msg_list as $msg) {
+        echo "<div class='error'>" . $msg . "</div>\n";
+    }
 }
+
+if ($error->blank == TRUE) {
+    :
+} else {
 ?>
 
 <div id=top style='text-align:right; padding: 20px 10px 10px 0;'>
@@ -66,16 +72,17 @@ if ($error->skip == TRUE) {
 </div>
 
 <?php
-start_js:
+}
 ?>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/jquery-ui.min.js"></script>
 <script src="/jquery.confirm/jquery.confirm.js"></script>
 <script src="/jquery.ui.datetime/jquery.ui.datetime.src.js"></script>
 <script src="/jquery.activity_indicator/jquery.activity-indicator-1.0.0.js"></script>
 <script src="/jquery.corner/jquery.corner.js"></script>
 <script src="/js/script.js"></script>
+<script src="/js/error.js"></script>
 </body>
 </html>
 

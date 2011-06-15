@@ -23,14 +23,33 @@ $(function(){
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
-                                    $.post('/', { op: 'add_storage', disk_path: $disk_path },
-                                        function(){ 
-                                            $.confirm.hide(); 
-                                            $('#middle').load('/ #middle', function(){
-                                                $.getScript('/js/script.js');
-                                                $('#new_storage_form').slideToggle();
-                                            });
-                                        } 
+                                    $.post(
+                                        '/op.php', 
+                                        { op: 'add_storage', disk_path: $disk_path },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                                $('#middle').load('/ #middle', function(){
+                                                    $.getScript('/js/script.js');
+                                                    $('#new_storage_form').slideToggle();
+                                                });
+                                            }
+                                        },'json'
                                     );
                                 }
                 },
@@ -53,14 +72,33 @@ $(function(){
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
-                                    $.post('/', { op: 'remove_storage', disk_path: $disk_path },
-                                        function(){ 
-                                            $.confirm.hide(); 
-                                            $('#middle').load('/ #middle', function(){
-                                                $.getScript('/js/script.js');
-                                                $('#new_storage_form').slideToggle();
-                                            });
-                                        } 
+                                    $.post(
+                                        '/op.php', 
+                                        { op: 'remove_storage', disk_path: $disk_path },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                                $('#middle').load('/ #middle', function(){
+                                                    $.getScript('/js/script.js');
+                                                    $('#new_storage_form').slideToggle();
+                                                });
+                                            }
+                                        },'json'
                                     );
                                 }
                 },
@@ -93,13 +131,32 @@ $(function(){
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
-                                    $.post('/', { op: 'fc_update_db_flash_cache_size', fc_db_flash_cache_size: $fc_db_flash_cache_size },
-                                        function(){
-                                            $.confirm.hide(); 
-                                            $('#middle').load('/ #middle', function(){
-                                                $.getScript('/js/script.js');
-                                            });
-                                        }
+                                    $.post(
+                                        '/op.php', 
+                                        { op: 'fc_update_db_flash_cache_size', fc_db_flash_cache_size: $fc_db_flash_cache_size },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                                $('#middle').load('/ #middle', function(){
+                                                    $.getScript('/js/script.js');
+                                                });
+                                            }
+                                        },'json'
                                     );
                                 }
                 },
@@ -139,13 +196,32 @@ $(function(){
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
-                                    $.post('/', { op: 'ss_switchover' },
-                                        function(){ 
-                                            $.confirm.hide(); 
-                                            $('#middle').load('/ #middle', function(){
-                                                $.getScript('/js/script.js');
-                                            });
-                                        } 
+                                    $.post(
+                                        '/op.php',
+                                        { op: 'ss_switchover' },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                                $('#middle').load('/ #middle', function(){
+                                                    $.getScript('/js/script.js');
+                                                });
+                                            }
+                                        },'json'
                                     );
                                 }
                 },
@@ -164,14 +240,32 @@ $(function(){
     //ss_update_protection_mode
     $('#ss_protection_mode .unselected').click(function(){
         var $ss_protection_mode = $(this).attr('ss_protection_mode');
-
-        $.post('/', { op: 'ss_update_protection_mode', ss_protection_mode: $ss_protection_mode },
-            function(){
-                $.confirm.hide(); 
-                $('#middle').load('/ #middle', function(){
-                    $.getScript('/js/script.js');
-                });
-            }
+        $.post(
+            '/op.php', 
+            { op: 'ss_update_protection_mode', ss_protection_mode: $ss_protection_mode },
+            function(data){
+                if (data.error == 1) {
+                    $message = '';
+                    for (i in data.stack_msg) {
+                        $message += data.stack_msg[i] + '<br/>';
+                    }
+    	            $.confirm({
+                        'title' : 'Error',
+                        'message' : $message,
+                        'buttons'	: {
+                            'Close'	: {
+                                'class'	: 'gray',
+                                'action':   function(){}
+                            }
+                        }
+    	            });
+                } else {
+                    $.confirm.hide(); 
+                    $('#middle').load('/ #middle', function(){
+                        $.getScript('/js/script.js');
+                    });
+                }
+            },'json'
         );
         $.confirm.status();
     });
@@ -180,13 +274,32 @@ $(function(){
     $('#ss_compression .unselected').click(function(){
         var $ss_compression = $(this).attr('ss_compression');
 
-        $.post('/', { op: 'ss_update_compression', ss_compression: $ss_compression },
-            function(){
-                $.confirm.hide(); 
-                $('#middle').load('/ #middle', function(){
-                    $.getScript('/js/script.js');
-                });
-            }
+        $.post(
+            '/op.php', 
+            { op: 'ss_update_compression', ss_compression: $ss_compression },
+            function(data){
+                if (data.error == 1) {
+                    $message = '';
+                    for (i in data.stack_msg) {
+                        $message += data.stack_msg[i] + '<br/>';
+                    }
+    	            $.confirm({
+                        'title' : 'Error',
+                        'message' : $message,
+                        'buttons'	: {
+                            'Close'	: {
+                                'class'	: 'gray',
+                                'action':   function(){}
+                            }
+                        }
+    	            });
+                } else {
+                    $.confirm.hide(); 
+                    $('#middle').load('/ #middle', function(){
+                        $.getScript('/js/script.js');
+                    });
+                }
+            },'json'
         );
         $.confirm.status();
     });
@@ -204,11 +317,30 @@ $(function(){
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
-                                    $.post('/', { op: "delete_customer", customer_id: $customer_id },
-                                        function(){ 
-                                            $.confirm.hide(); 
-                                            $elem.fadeOut(2000);
-                                        } 
+                                    $.post(
+                                        '/op.php', 
+                                        { op: "delete_customer", customer_id: $customer_id },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                                $elem.fadeOut(2000);
+                                            }
+                                        },'json'
                                     );
                                 }
                 },
@@ -235,33 +367,70 @@ $(function(){
         var $customer_name = $('#new_db_form :text').attr('value');
         var $customer_password = $('#new_db_form :password').attr('value');
         $('#new_db_form').slideUp('slow');
-        $.post('/', { op: 'create_customer', customer_name: $customer_name, customer_password: $customer_password },
-            function(){
-                $.confirm.hide(); 
-                $('#new_db_form :text').attr('value', '');
-                $('#new_db_form :password').attr('value', '');
-                $('#middle').load('/ #middle', function(){
-                    $.getScript('/js/script.js');
-                });
-            }
-        );
         $.confirm.status();
+        $.post(
+            '/op.php', 
+            { op: 'create_customer', customer_name: $customer_name, customer_password: $customer_password },
+            function(data){
+                if (data.error == 1) {
+                    $message = '';
+                    for (i in data.stack_msg) {
+                        $message += data.stack_msg[i] + '<br/>';
+                    }
+    	            $.confirm({
+                        'title' : 'Error',
+                        'message' : $message,
+                        'buttons'	: {
+                            'Close'	: {
+                                'class'	: 'gray',
+                                'action':   function(){}
+                            }
+                        }
+    	            });
+                } else {
+                    $.confirm.hide(); 
+                    $('#new_db_form :text').attr('value', '');
+                    $('#new_db_form :password').attr('value', '');
+                    $('#middle').load('/ #middle', function(){
+                        $.getScript('/js/script.js');
+                    });
+                }
+            },'json'
+        );
     });
 
     //update_consumer_group
     $('#existing_db .cpu_speed .unselected').click(function(){
         var $customer_id = $(this).attr('customer_id');
         var $consumer_group = $(this).attr('consumer_group');
-
-        $.post('/', { op: 'update_consumer_group', customer_id: $customer_id, consumer_group: $consumer_group },
-            function(){
-                $.confirm.hide(); 
-                $('#middle').load('/ #middle', function(){
-                    $.getScript('/js/script.js');
-                });
-            }
-        );
         $.confirm.status();
+        $.post(
+            '/op.php', 
+            { op: 'update_consumer_group', customer_id: $customer_id, consumer_group: $consumer_group },
+            function(data){
+                if (data.error == 1) {
+                    $message = '';
+                    for (i in data.stack_msg) {
+                        $message += data.stack_msg[i] + '<br/>';
+                    }
+    	            $.confirm({
+                        'title' : 'Error',
+                        'message' : $message,
+                        'buttons'	: {
+                            'Close'	: {
+                                'class'	: 'gray',
+                                'action':   function(){}
+                            }
+                        }
+    	            });
+                } else {
+                    $.confirm.hide(); 
+                    $('#middle').load('/ #middle', function(){
+                        $.getScript('/js/script.js');
+                    });
+                }
+            },'json'
+        );
     });
 
     //Display Storage Quota Form
@@ -274,31 +443,68 @@ $(function(){
     $('#existing_db .storage_quota .button_yes').click(function(){
         var $customer_id = $(':hidden', $(this).parent()).attr('value');
         var $max_gbytes = $(':text', $(this).parent()).attr('value');
-        $.post('/', { op: 'update_storage_quota', customer_id: $customer_id, max_gbytes: $max_gbytes },
-            function(){
-                $.confirm.hide(); 
-                $('#middle').load('/ #middle', function(){
-                    $.getScript('/js/script.js');
-                });
-            }
-        );
         $.confirm.status();
+        $.post(
+            '/op.php', 
+            { op: 'update_storage_quota', customer_id: $customer_id, max_gbytes: $max_gbytes },
+            function(data){
+                if (data.error == 1) {
+                    $message = '';
+                    for (i in data.stack_msg) {
+                        $message += data.stack_msg[i] + '<br/>';
+                    }
+    	            $.confirm({
+                        'title' : 'Error',
+                        'message' : $message,
+                        'buttons'	: {
+                            'Close'	: {
+                                'class'	: 'gray',
+                                'action':   function(){}
+                            }
+                        }
+    	            });
+                } else {
+                    $.confirm.hide(); 
+                    $('#middle').load('/ #middle', function(){
+                        $.getScript('/js/script.js');
+                    });
+                }
+            },'json'
+        );
     });
     	
     //update_compression
     $('#existing_db .compression .unselected').click(function(){
         var $customer_id = $(this).attr('customer_id');
         var $compression = $(this).attr('compression');
-
-        $.post('/', { op: 'update_compression', customer_id: $customer_id, compression: $compression },
-            function(){
-                $.confirm.hide(); 
-                $('#middle').load('/ #middle', function(){
-                    $.getScript('/js/script.js');
-                });
-            }
-        );
         $.confirm.status();
+        $.post(
+            '/op.php', 
+            { op: 'update_compression', customer_id: $customer_id, compression: $compression },
+            function(data){
+                if (data.error == 1) {
+                    $message = '';
+                    for (i in data.stack_msg) {
+                        $message += data.stack_msg[i] + '<br/>';
+                    }
+    	            $.confirm({
+                        'title' : 'Error',
+                        'message' : $message,
+                        'buttons'	: {
+                            'Close'	: {
+                                'class'	: 'gray',
+                                'action':   function(){}
+                            }
+                        }
+    	            });
+                } else {
+                    $.confirm.hide(); 
+                    $('#middle').load('/ #middle', function(){
+                        $.getScript('/js/script.js');
+                    });
+                }
+            },'json'
+        );
     });
 
     //Show Login Information
@@ -307,12 +513,12 @@ $(function(){
         var $hostname = $(this).attr('hostname');
         var $service = $(this).attr('service');
     	$.confirm({
-            'title'		: 'Login Information',
-            'message'	: 'Login ID: ' +$customer_id+ '<br/>Password: ******<br/>Hostname: ' +$hostname+ '<br/>Service: ' +$service,
-            'buttons'	: {
+            'title' : 'Login Information',
+            'message' : 'Login ID: ' +$customer_id+ '<br/>Password: ******<br/>Hostname: ' +$hostname+ '<br/>Service: ' +$service,
+            'buttons' : {
                 'Close'	: {
-                    'class'	: 'gray',
-                    'action':   function(){}
+                    'class' : 'gray',
+                    'action' : function(){}
                 }
             }
     	});
@@ -336,13 +542,32 @@ $(function(){
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
-                                    $.post('/', { op: 'rollback_customer', customer_id: $customer_id, timestamp: $timestamp },
-                                        function(){
-                                            $.confirm.hide(); 
-                                            $('#middle').load('/ #middle', function(){
-                                                $.getScript('/js/script.js');
-                                            });
-                                        }
+                                    $.post(
+                                        '/op.php', 
+                                        { op: 'rollback_customer', customer_id: $customer_id, timestamp: $timestamp },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                                $('#middle').load('/ #middle', function(){
+                                                    $.getScript('/js/script.js');
+                                                });
+                                            }
+                                        },'json'
                                     );
                                 }
                 },
@@ -353,6 +578,23 @@ $(function(){
             }
     	});
     });
+
+    //Error
+    var $flag_error = $('.flag_error:first').text();
+    if ($flag_error == 'TRUE'){
+        $message = ''
+        $('.error_msg').each(function(){$message += $(this).text();});
+    	$.confirm({
+            'title' : 'Error',
+            'message' : $message,
+            'buttons' : {
+                'Close'	: {
+                    'class' : 'gray',
+                    'action' : function(){}
+                }
+            }
+    	});
+    }
 
     //Initialize
     var $flag_role_required = $('#flag_role_required').text();
@@ -369,10 +611,29 @@ $(function(){
                 'Yes'	: {
                     'class'	: 'blue',
                     'action':   function(){
-                                    $.post('/', { op: "initialize" },
-                                        function(){ 
-                                            $.confirm.hide(); 
-                                        } 
+                                    $.post(
+                                        '/op.php', 
+                                        { op: "initialize" },
+                                        function(data){
+                                            if (data.error == 1) {
+                                                $message = '';
+                                                for (i in data.stack_msg) {
+                                                    $message += data.stack_msg[i] + '<br/>';
+                                                }
+    	                                        $.confirm({
+                                                    'title' : 'Error',
+                                                    'message' : $message,
+                                                    'buttons'	: {
+                                                        'Close'	: {
+                                                            'class'	: 'gray',
+                                                            'action':   function(){}
+                                                        }
+                                                    }
+    	                                        });
+                                            } else {
+                                                $.confirm.hide(); 
+                                            }
+                                        },'json'
                                     );
                                 }
                 },

@@ -1,14 +1,14 @@
 <?php
 class Flash {
-    public $err_msg = array();
-
     public function fetch_db_flash_cache_detail($conn_db) {
+        global $error;
+
         $sql = "select name, value from v\$parameter where name like 'db_flash_cache_%'";
         $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
         if ($result == FALSE) {
-            array_push($this->err_msg, "Failed SQL = '$sql'");
-            return(FALSE);
+            $error->set_msg("Failed SQL = '$sql'");
+            return(ERROR);
         }
         while ($row = oci_fetch_array($state_id, OCI_BOTH)) {
             if ($row['NAME'] == 'db_flash_cache_file') {
@@ -36,13 +36,16 @@ class Flash {
     }
 
     public function update_db_flash_cache_size($conn_db, $db_flash_cache_size) {
+        global $error;
+
         $sql = "alter system set db_flash_cache_size=" . $db_flash_cache_size . "G scope=spfile";
         $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
         if ($result == FALSE) {
-            array_push($this->err_msg, "Failed SQL = '$sql'");
-            return(FALSE);
+            $error->set_msg("Failed SQL = '$sql'");
+            return(ERROR);
         }
+        return(TRUE);
     }
 }
 ?>

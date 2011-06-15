@@ -1,45 +1,58 @@
 <?php
 Class Role {
-    public $err_msg = array();
-
     public function create($conn_db, $name) {
+        global $error;
+
         $result = self::exist($conn_db, $name);
         if ($result == TRUE) {
-            array_push($this->err_msg, "ロールはすでに存在しています。");
-            return(FALSE);
+            $error->set_msg("Role already exists.");
+            return(ERROR);
         }
-        $state_id = oci_parse($conn_db, "CREATE ROLE $name");
+        $sql = "CREATE ROLE $name";
+        $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
         if ($result != TRUE) {
-            array_push($this->err_msg, "ロールの作成に失敗しました。");
-            return(FALSE);
+            $error->set_msg("Failed to create Role. Failed SQL = '$sql'");
+            return(ERROR);
         }
-        $state_id = oci_parse($conn_db, "GRANT connect to $name");
+        $sql = "GRANT connect to $name";
+        $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
         if ($result != TRUE) {
-            array_push($this->err_msg, "ロールへconnectロールを割り当てられませんでした。");
-            return(FALSE);
+            $error->set_msg("Failed to assign connect Role to new Role. Failed SQL = '$sql'");
+            return(ERROR);
         }
-        $state_id = oci_parse($conn_db, "GRANT resource to $name");
+        $sql = "GRANT resource to $name";
+        $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
         if ($result != TRUE) {
-            array_push($this->err_msg, "ロールへresourceロールを割り当てられませんでした。");
-            return(FALSE);
+            $error->set_msg("Failed to assign resource Role to new Role. Failed SQL = '$sql'");
+            return(ERROR);
         }
         return(TRUE);
     }
 
     public function delete($conn_db, $name) {
-        $state_id = oci_parse($conn_db, "DROP ROLE '$name'");
-        $result = oci_execute($state_id);
-        if ($result != TRUE) {
-            array_push($this->err_msg, "ロールの削除に失敗しました。");
-            return(FALSE);
+        global $error;
+
+        $result = self::exist($conn_db, $name);
+        if ($result == TRUE) {
+            $sql = "DROP ROLE '$name'";
+            $state_id = oci_parse($conn_db, $sql);
+            $result = oci_execute($state_id);
+            if ($result != TRUE) {
+                $error->set_msg("Failed to delete Role. Failed SQL = '$sql'");
+                return(ERROR);
+            }
         }
+        return(TRUE);
     }
 
     public function exist($conn_db, $name) {
-        $state_id = oci_parse($conn_db, "SELECT count(*) FROM user$ WHERE type# = 0 and name = '" . CLOUD_USER . "'");
+        global $error;
+
+        $sql = "SELECT count(*) FROM user$ WHERE type# = 0 and name = '" . CLOUD_USER . "'";
+        $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
         $row = oci_fetch_array($state_id, OCI_BOTH);
         if ($row[0] == '1') {

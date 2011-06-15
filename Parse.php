@@ -1,72 +1,77 @@
 <?php
 class Parse {
-    public $err_msg = array();
-
     public function id($input) {
+        global $error;
         $pattern = '/^[\w_-]+$/';
         $trimmed_input = trim($input);
         if (!preg_match($pattern, $trimmed_input)) {
-            array_push($this->err_msg, "許可されている文字列はアルファベット、数字、_(アンダースコア）,-(ハイフン)です。");
-            return(FALSE);
+            $error->set_msg("Invalid string. Available letters are numbers, '_' and '-'.");
+            return(ERROR);
         }
-        return($trimmed_input);
+        return(strtoupper($trimmed_input));
     }
 
     public function password($input) {
+        global $error;
         return(self::id($input));
     }
     
     public function select($input, $array_option) {
+        global $error;
         $trimmed_input = trim($input);
         if (array_search($trimmed_input, $array_option) === FALSE) {
-            array_push($this->err_msg, "不正な文字列が入力されました。");
-            return(FALSE);
+            $error->set_msg("illegal input detected.");
+            return(ERROR);
         }
         return($trimmed_input);
     }
 
     public function max_gbytes($input) {
+        global $error;
         if (!is_numeric($input)) {
-            array_push($this->err_msg, "許可されている文字列は数字です。");
-            return(FALSE);
+            $error->set_msg("Invalid input. Available letters are numbers.");
+            return;
         }
         if ($input > 1000000) {
-            array_push($this->err_msg, "許可されている数字は1000000までです。");
-            return(FALSE);
+            $error->set_msg("Invalid input. Available value is less than or equal to 10000000.");
+            return(ERROR);
         }
         return($input);
     }
 
     public function disk_path($input) {
-        $pattern = '/^[\w/]+$/';
+        global $error;
         $trimmed_input = trim($input);
         /*
+        $pattern = '/^[\w/]+$/';
         if (!preg_match($pattern, $trimmed_input)) {
-            array_push($this->err_msg, "許可されている文字列はアルファベットです。");
-            return(FALSE);
+            $error->set_msg("Invalid input. Available letters are xxxx");
+            return();
         }
         */
         return($trimmed_input);
     }
 
     public function fc_db_flash_cache_size($input) {
+        global $error;
         if (!is_numeric($input)) {
-            array_push($this->err_msg, "許可されている文字列は数字です。");
-            return(FALSE);
+            $error->set_msg("Invalid input. Available letters are numbers.");
+            return(ERROR);
         }
         if ($input > 25) {
-            array_push($this->err_msg, "許可されている数字は25までです。");
-            return(FALSE);
+            $error->set_msg("Invalid input. Available value is less than or equal to 25.");
+            return(ERROR);
         }
         return($input);
     }
 
     public function timestamp($input) {
+        global $error;
         $pattern = '/^\d\d\d\d-\d\d-\d\d \d\d:\d\d$/';
         $trimmed_input = trim($input);
         if (!preg_match($pattern, $trimmed_input)) {
-            array_push($this->err_msg, "Invalide String. String should be like '0000-00-00 00:00'.");
-            return(FALSE);
+            $error->set_msg("Invalid input. String should be like '0000-00-00 00:00'.");
+            return(ERROR);
         }
         $timestamp = $trimmed_input . ':00';
         return($timestamp);

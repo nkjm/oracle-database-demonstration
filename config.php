@@ -70,5 +70,4 @@ define("SS_ORACLE_HOME", '/u01/base/db');
 
 
 // Error
-$err_msg = ""
-?>
+define("ERROR", "ERROR");

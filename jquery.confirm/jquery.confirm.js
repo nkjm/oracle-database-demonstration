@@ -4,7 +4,8 @@
 		
 		if($('#confirmOverlay').length){
 			// A confirm is already shown on the page:
-			return false;
+                        $.confirm.hide();
+			//return false;
 		}
 		
 		var buttonHTML = '';
