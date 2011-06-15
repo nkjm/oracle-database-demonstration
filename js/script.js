@@ -583,7 +583,7 @@ $(function(){
     var $flag_error = $('.flag_error:first').text();
     if ($flag_error == 'TRUE'){
         $message = ''
-        $('.error_msg').each(function(){$message += $(this).text();});
+        $('.error_msg').each(function(){$message += $(this).text() + '<br/>';});
     	$.confirm({
             'title' : 'Error',
             'message' : $message,
