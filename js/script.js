@@ -32,7 +32,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
@@ -81,7 +81,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
@@ -140,7 +140,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
@@ -205,7 +205,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
@@ -249,7 +249,7 @@ $(function(){
                     for (i in data.stack_msg) {
                         $message += data.stack_msg[i] + '<br/>';
                     }
-    	            $.confirm({
+    	            $.confirm.error({
                         'title' : 'Error',
                         'message' : $message,
                         'buttons'	: {
@@ -283,7 +283,7 @@ $(function(){
                     for (i in data.stack_msg) {
                         $message += data.stack_msg[i] + '<br/>';
                     }
-    	            $.confirm({
+    	            $.confirm.error({
                         'title' : 'Error',
                         'message' : $message,
                         'buttons'	: {
@@ -326,7 +326,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
@@ -377,7 +377,7 @@ $(function(){
                     for (i in data.stack_msg) {
                         $message += data.stack_msg[i] + '<br/>';
                     }
-    	            $.confirm({
+    	            $.confirm.error({
                         'title' : 'Error',
                         'message' : $message,
                         'buttons'	: {
@@ -413,7 +413,7 @@ $(function(){
                     for (i in data.stack_msg) {
                         $message += data.stack_msg[i] + '<br/>';
                     }
-    	            $.confirm({
+    	            $.confirm.error({
                         'title' : 'Error',
                         'message' : $message,
                         'buttons'	: {
@@ -453,7 +453,7 @@ $(function(){
                     for (i in data.stack_msg) {
                         $message += data.stack_msg[i] + '<br/>';
                     }
-    	            $.confirm({
+    	            $.confirm.error({
                         'title' : 'Error',
                         'message' : $message,
                         'buttons'	: {
@@ -487,7 +487,7 @@ $(function(){
                     for (i in data.stack_msg) {
                         $message += data.stack_msg[i] + '<br/>';
                     }
-    	            $.confirm({
+    	            $.confirm.error({
                         'title' : 'Error',
                         'message' : $message,
                         'buttons'	: {
@@ -551,7 +551,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
@@ -584,7 +584,7 @@ $(function(){
     if ($flag_error == 'TRUE'){
         $message = ''
         $('.error_msg').each(function(){$message += $(this).text() + '<br/>';});
-    	$.confirm({
+    	$.confirm.error({
             'title' : 'Error',
             'message' : $message,
             'buttons' : {
@@ -620,7 +620,7 @@ $(function(){
                                                 for (i in data.stack_msg) {
                                                     $message += data.stack_msg[i] + '<br/>';
                                                 }
-    	                                        $.confirm({
+    	                                        $.confirm.error({
                                                     'title' : 'Error',
                                                     'message' : $message,
                                                     'buttons'	: {
