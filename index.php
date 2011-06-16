@@ -30,8 +30,9 @@ $parse = new Parse();
 /***
 **** Connect to Database
 ***/
-// In case SS enabled
+
 if (SS == TRUE) {
+    // In case of Site Syncronization enabled
     $ss_conn_db_main = oci_connect(DB_USER, DB_PASSWORD, '//' . SS_MAIN_DB_HOSTNAME . '/' . SS_MAIN_DB_SERVICE, '', OCI_SYSDBA);
     if ($ss_conn_db_main == FALSE) {
         $error->set_msg("Failed to connect to Main Database.");
@@ -71,6 +72,7 @@ if (SS == TRUE) {
         $ss_inactive_db_unique_name =   SS_MAIN_DB_UNIQUE_NAME;
     }
 } else {
+    // In case of Site Syncronization disabled
     $conn_db = oci_connect(DB_USER, DB_PASSWORD, '//' . DB_HOSTNAME . '/' . DB_SERVICE, '', OCI_SYSDBA);
     if ($conn_db == FALSE) {
         $error->set_msg("Failed to connect to Database.");
@@ -81,6 +83,7 @@ if (SS == TRUE) {
 if ($error->skip == TRUE) {
     goto start_html;
 }
+
 
 /***
 **** Connect to ASM

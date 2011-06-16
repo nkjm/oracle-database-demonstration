@@ -42,13 +42,11 @@ class Parse {
     public function disk_path($input) {
         global $error;
         $trimmed_input = trim($input);
-        /*
-        $pattern = '/^[\w/]+$/';
+        $pattern = '/^[\w-:\/]+$/';
         if (!preg_match($pattern, $trimmed_input)) {
-            $error->set_msg("Invalid input. Available letters are xxxx");
-            return();
+            $error->set_msg("Invalid disk path. Available letters are [a-z0-9:/]");
+            return(ERROR);
         }
-        */
         return($trimmed_input);
     }
 
