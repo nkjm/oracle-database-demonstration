@@ -22,13 +22,11 @@ for sql in sqls:
     try:
         cur_main.execute(sql)
     except cx_Oracle.DatabaseError,msg:
-        print "Failed: sql=%s" % sql, msg
         sys.exit()
 
 try:
     con_main.shutdown(mode = cx_Oracle.DBSHUTDOWN_FINAL)
 except cx_Oracle.DatabaseError,msg:
-    print "Failed to DBSHUTDOWN_FINAL.", msg
     sys.exit()
 
 sys.exit(1)
