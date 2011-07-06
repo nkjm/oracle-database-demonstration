@@ -39,7 +39,6 @@ class Drive {
     public function delete_tablespace($conn_db, $tablespace) {
         global $error;
 
-        //$sql = "DROP TABLESPACE $tablespace INCLUDING CONTENTS AND DATAFILES";
         $sql = "DROP TABLESPACE $tablespace";
         $state_id = oci_parse($conn_db, $sql);
         $result = oci_execute($state_id);
@@ -110,23 +109,86 @@ class Drive {
         $state_id = oci_parse($conn_asm, $sql);
         $result = oci_execute($state_id);
         $array_disk = array();
-        while ($row = oci_fetch_array($state_id, OCI_BOTH)) {
-            array_push($array_disk, $row);
+        while ($disk = oci_fetch_array($state_id, OCI_BOTH)) {
+            array_push($array_disk, $disk);
         }
         return($array_disk);
     }
 
     public function fetch_candidate_disk($conn_asm) {
         global $error;
+        global $aws_instance_id;
+        global $aws_region;
 
         $sql = "select path, os_mb ,header_status from v\$asm_disk where header_status = 'CANDIDATE' or header_status = 'FORMER'";
         $state_id = oci_parse($conn_asm, $sql);
         $result = oci_execute($state_id);
+        if (AWS == TRUE) {
+            $aws = new Aws($aws_instance_id, $aws_region);
+        }
         $array_disk = array();
-        while ($row = oci_fetch_array($state_id, OCI_BOTH)) {
-            array_push($array_disk, $row);
+        while ($disk = oci_fetch_array($state_id, OCI_BOTH)) {
+            if (AWS == TRUE) {
+                $aws_volume_id = $aws->fetch_volume_id_by_disk_path($disk['PATH']);
+                $disk['aws_volume_id'] = $aws_volume_id;
+            }
+            array_push($array_disk, $disk);
         }
         return($array_disk);
+    }
+
+    public function fetch_all_disk($conn_asm) {
+        global $error;
+        global $aws_instance_id;
+        global $aws_region;
+
+        $sql = "select path, os_mb ,header_status from v\$asm_disk";
+        $state_id = oci_parse($conn_asm, $sql);
+        $result = oci_execute($state_id);
+        if (AWS == TRUE) {
+            $aws = new Aws($aws_instance_id, $aws_region);
+        }
+        $array_disk = array();
+        while ($disk = oci_fetch_array($state_id, OCI_BOTH)) {
+            if (AWS == TRUE) {
+                $aws_volume_id = $aws->fetch_volume_id_by_disk_path($disk['PATH']);
+                $disk['aws_volume_id'] = $aws_volume_id;
+            }
+            array_push($array_disk, $disk);
+        }
+        return($array_disk);
+    }
+
+    public function disk_exist($conn_asm, $disk_path) {
+        global $error;
+
+        $sql = "select count(*) from v\$asm_disk where path = '" . $disk_path . "'";
+        $state_id = oci_parse($conn_asm, $sql);
+        $result = oci_execute($state_id);
+        $row = oci_fetch_array($state_id, OCI_BOTH);
+        if ($row['COUNT(*)'] == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function fetch_available_device($conn_asm, $array_device_list) {
+        global $error;
+
+        $array_all_disk = self::fetch_all_disk($conn_asm);
+        foreach($array_all_disk as $k => $disk) {
+            if (in_array(str_replace('/dev/','',$disk['PATH']), $array_device_list)) {
+                $key_to_unset = array_search(str_replace('/dev/','',$disk['PATH']), $array_device_list);
+                unset($array_device_list[$key_to_unset]);
+            }
+        }
+        $available_device_list = array_values($array_device_list);
+        if (count($available_device_list) < 1) {
+            $error->set_msg("No more available device to attach.");
+            return(ERROR);
+        }
+        return($available_device_list[0]); 
     }
 
     public function add_disk($conn_asm, $dg, $disk_path) {

@@ -5,7 +5,7 @@ class Parse {
         $pattern = '/^[\w_-]+$/';
         $trimmed_input = trim($input);
         if (!preg_match($pattern, $trimmed_input)) {
-            $error->set_msg("Invalid string. Available letters are numbers, '_' and '-'.");
+            $error->set_msg("Invalid string. Available letters are [a-zA-Z0-9_-].");
             return(ERROR);
         }
         return(strtoupper($trimmed_input));
@@ -42,9 +42,12 @@ class Parse {
     public function disk_path($input) {
         global $error;
         $trimmed_input = trim($input);
+        if ($trimmed_input == 'aws_new') {
+            return($trimmed_input);
+        }
         $pattern = '/^[\w-:\/]+$/';
         if (!preg_match($pattern, $trimmed_input)) {
-            $error->set_msg("Invalid disk path. Available letters are [a-z0-9:/]");
+            $error->set_msg("Invalid disk path. Available letters are [a-z0-9-:/]");
             return(ERROR);
         }
         return($trimmed_input);
@@ -74,5 +77,24 @@ class Parse {
         $timestamp = $trimmed_input . ':00';
         return($timestamp);
     }
+
+/*
+    public function aws_volume_id($input) {
+        global $error;
+        if ($trimmed_input == 'n/a') {
+            return($trimmed_input);
+        }
+        $pattern = '/^[\w-]+$/';
+        $trimmed_input = trim($input);
+        if ($trimmed_input == 'n/a') {
+            return($trimmed_input);
+        }
+        if (!preg_match($pattern, $trimmed_input)) {
+            $error->set_msg("Invalid string. Available letters are [a-zA-Z0-9_-].");
+            return(ERROR);
+        }
+        return($trimmed_input);
+    }
+*/
 }
 ?>

@@ -11,7 +11,6 @@ ini_set('date.timezone', 'Asia/Tokyo');
 ini_set('oci8.privileged_connect', 'On');
 ini_set('oci8.statement_cache_size', 0);
 ini_set('oci8.old_oci_close_semantics', 'Off');
-//putenv("TNS_ADMIN=/u01/base/database/network/admin");
 
 require_once './Role.php';
 require_once './Resource.php';
@@ -23,6 +22,10 @@ require_once './Customer.php';
 require_once './Site.php';
 require_once './Flash.php';
 require_once './Snapshot.php';
+if (AWS == TRUE) {
+    require_once './Aws.php';
+}
+
 $error = new Error();
 $parse = new Parse();
 
@@ -63,6 +66,10 @@ if (SS == TRUE) {
         $ss_inactive_db_hostname =    SS_BACKUP_DB_HOSTNAME;
         $ss_inactive_db_service =   SS_BACKUP_DB_SERVICE;
         $ss_inactive_db_unique_name =   SS_BACKUP_DB_UNIQUE_NAME;
+        if (AWS == TRUE) {
+            $aws_instance_id = SS_MAIN_AWS_INSTANCE_ID;
+            $aws_region = SS_MAIN_AWS_REGION;
+        }
     } elseif ($ss_active_sitename == SS_BACKUP_SITENAME) {
         $ss_active_db_hostname =    SS_BACKUP_DB_HOSTNAME;
         $ss_active_db_service =   SS_BACKUP_DB_SERVICE;
@@ -70,6 +77,10 @@ if (SS == TRUE) {
         $ss_inactive_db_hostname =    SS_MAIN_DB_HOSTNAME;
         $ss_inactive_db_service =    SS_MAIN_DB_SERVICE;
         $ss_inactive_db_unique_name =   SS_MAIN_DB_UNIQUE_NAME;
+        if (AWS == TRUE) {
+            $aws_instance_id = SS_BACKUP_AWS_INSTANCE_ID;
+            $aws_region = SS_BACKUP_AWS_REGION;
+        }
     }
 } else {
     // In case of Site Syncronization disabled
@@ -78,6 +89,8 @@ if (SS == TRUE) {
         $error->set_msg("Failed to connect to Database.");
         $error->skip = TRUE;
     }
+    $aws_instance_id = AWS_INSTANCE_ID;
+    $aws_region = AWS_REGION;
 }
 
 if ($error->skip == TRUE) {

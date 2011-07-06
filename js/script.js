@@ -12,20 +12,28 @@ $(function(){
         $('.hidden', $(this)).hide();
     });
 
-    //add_storage
+    //add_storage | detach_storage (if AWS enabled)
     $('#new_storage_form .unselected').click(function(){
         var $disk_path = $(this).attr('disk_path');
+        var $action = $(this).attr('action');
+        if ($action == 'add') {
+            $message = 'Going to add New Storage.<br />Are you sure?';
+            $op = 'add_storage';
+        } else if ($action == 'detach') {
+            $message = 'Going to detach Storage: "' +$disk_path+ '".<br />Are you sure?';
+            $op = 'detach_storage';
+        }
         $('#new_storage_form').slideToggle();
     	$.confirm({
             'title'     :   'Confirmation',
-            'message'   :   'Going to add New Storage: "' +$disk_path+ '"<br />Are you sure?',
+            'message'   :   $message,
             'buttons'   :   {
                 'Yes'   :   {
                     'class' :   'blue',
                     'action':   function(){
                                     $.post(
                                         '/op.php', 
-                                        { op: 'add_storage', disk_path: $disk_path },
+                                        { op: $op, disk_path: $disk_path },
                                         function(data){
                                             if (data.error == 1) {
                                                 $message = '';

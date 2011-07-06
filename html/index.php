@@ -13,7 +13,6 @@
 
 </head>
 <body>
-
 <?php
 if ($error->skip == TRUE) {
     goto start_js;

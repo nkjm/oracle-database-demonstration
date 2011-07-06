@@ -6,6 +6,7 @@
  */
 
 set_time_limit(300);
+ini_set('display_errors', 'Off');
 ini_set('date.timezone', 'Asia/Tokyo');
 ini_set('oci8.privileged_connect', 'On');
 ini_set('oci8.statement_cache_size', 0);
@@ -22,6 +23,9 @@ require_once './Customer.php';
 require_once './Site.php';
 require_once './Flash.php';
 require_once './Snapshot.php';
+if (AWS == TRUE) {
+    require_once './Aws.php';
+}
 $error = new Error();
 $parse = new Parse();
 
@@ -63,6 +67,10 @@ if (SS == TRUE) {
         $ss_inactive_db_hostname =    SS_BACKUP_DB_HOSTNAME;
         $ss_inactive_db_service =   SS_BACKUP_DB_SERVICE;
         $ss_inactive_db_unique_name =   SS_BACKUP_DB_UNIQUE_NAME;
+        if (AWS == TRUE) {
+            $aws_instance_id = SS_MAIN_AWS_INSTANCE_ID;
+            $aws_region = SS_MAIN_AWS_REGION;
+        }
     } elseif ($ss_active_sitename == SS_BACKUP_SITENAME) {
         $ss_active_db_hostname =    SS_BACKUP_DB_HOSTNAME;
         $ss_active_db_service =   SS_BACKUP_DB_SERVICE;
@@ -70,6 +78,10 @@ if (SS == TRUE) {
         $ss_inactive_db_hostname =    SS_MAIN_DB_HOSTNAME;
         $ss_inactive_db_service =    SS_MAIN_DB_SERVICE;
         $ss_inactive_db_unique_name =   SS_MAIN_DB_UNIQUE_NAME;
+        if (AWS == TRUE) {
+            $aws_instance_id = SS_BACKUP_AWS_INSTANCE_ID;
+            $aws_region = SS_BACKUP_AWS_REGION;
+        }
     }
 } else {
     $conn_db = oci_connect(DB_USER, DB_PASSWORD, '//' . DB_HOSTNAME . '/' . DB_SERVICE, '', OCI_SYSDBA);
@@ -77,6 +89,8 @@ if (SS == TRUE) {
         $error->set_msg("Failed to connect to Database.");
     }
     $error->check();
+    $aws_instance_id = AWS_INSTANCE_ID;
+    $aws_region = AWS_REGION;
 }
 
 
@@ -203,6 +217,12 @@ if (isset($_REQUEST["timestamp"])) {
     $timestamp = $parse->timestamp($_REQUEST["timestamp"]);
     $error->check();
 }
+/*
+if (isset($_REQUEST["aws_volume_id"])) {
+    $aws_volume_id = $parse->aws_volume_id($_REQUEST["aws_volume_id"]);
+    $error->check();
+}
+*/
 if (isset($_REQUEST["op"])) {
     $op = $_REQUEST["op"];
 } else {
@@ -253,12 +273,50 @@ switch ($op) {
         break;
     case 'add_storage':
         $drive = new Drive();
+        if (AWS == TRUE && $disk_path == 'aws_new') {
+            $aws = new Aws($aws_instance_id, $aws_region);
+            $aws_volume_id = $aws->create_volume(AWS_VOLUME_SIZE);
+            $error->check();
+            $aws_available_device = $drive->fetch_available_device($conn_asm, $array_aws_default_device_list);
+            $error->check();
+            $aws->attach_volume($aws_volume_id, $aws_available_device);
+            $error->check();
+            $disk_path = '/dev/' . $aws_available_device;
+        }
+        $timer = 0;
+        while (!$drive->disk_exist($conn_asm, $disk_path)) {
+            $timer += 1;
+            if ($timer > 30) {
+                $error->set_msg("The device has not been detected.");
+            }
+            $error->check();
+            sleep(1);
+        }
         $result = $drive->add_disk($conn_asm, DEFAULT_DG, $disk_path);
         $error->check();
         break;
     case 'remove_storage':
         $drive = new Drive();
         $result = $drive->delete_disk($conn_asm, DEFAULT_DG, $disk_path);
+        $error->check();
+        break;
+    case 'detach_storage':
+        $drive = new Drive();
+        if (AWS == TRUE) {
+            $aws = new Aws($aws_instance_id, $aws_region);
+            $aws_volume_id = $aws->fetch_volume_id_by_disk_path($disk_path);
+            $aws->detach_volume($aws_volume_id);
+            $timer = 0;
+            while ($aws->fetch_volume_status($aws_volume_id) != 'available') {
+                $timer += 1;
+                if ($timer > 60) {
+                    $error->set_msg("Had been waiting for volume status becoming available but timeout.");
+                }
+                $error->check();
+                sleep(1);
+            }
+            $aws->delete_volume($aws_volume_id);
+        }
         $error->check();
         break;
     case 'fc_update_db_flash_cache_size':

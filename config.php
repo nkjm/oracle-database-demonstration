@@ -44,26 +44,43 @@ define("SNAPSHOT_RETENTION", '604800');
 **** Pluggable Features
 ***/
 
+// AWS
+define("AWS", TRUE); // TRUE or FALSE
+if (AWS == TRUE) {
+    define("AWS_VOLUME_SIZE", 50);
+    define("AWS_INSTANCE_ID", '');
+    define("AWS_REGION", 'tokyo');
+    $array_aws_default_device_list = array('sdf','sdg','sdh','sdi','sdj','sdk','sdl','sdm','sdn','sdo','sdp');
+}
+
 // Site Syncronization
 define("SS", FALSE); // TRUE or FALSE
 if (SS == TRUE) {
-define("SS_MAIN_SITENAME", "");
-define("SS_MAIN_DB_HOSTNAME", "");
-define("SS_MAIN_DB_SERVICE", "");
-define("SS_MAIN_DB_UNIQUE_NAME", "");
-define("SS_MAIN_ASM_HOSTNAME", "");
-define("SS_MAIN_ASM_SERVICE", "");
+    define("SS_MAIN_SITENAME", "");
+    define("SS_MAIN_DB_HOSTNAME", "");
+    define("SS_MAIN_DB_SERVICE", "");
+    define("SS_MAIN_DB_UNIQUE_NAME", "");
+    define("SS_MAIN_ASM_HOSTNAME", "");
+    define("SS_MAIN_ASM_SERVICE", "");
+    if (AWS == TRUE) {
+        define("SS_MAIN_AWS_INSTANCE_ID", AWS_INSTANCE_ID);
+        define("SS_MAIN_AWS_REGION", AWS_REGION);
+    }
 
-define("SS_BACKUP_SITENAME", "");
-define("SS_BACKUP_DB_HOSTNAME", "");
-define("SS_BACKUP_DB_SERVICE", "");
-define("SS_BACKUP_DB_UNIQUE_NAME", "");
-define("SS_BACKUP_ASM_HOSTNAME", "");
-define("SS_BACKUP_ASM_SERVICE", "");
+    define("SS_BACKUP_SITENAME", "");
+    define("SS_BACKUP_DB_HOSTNAME", "");
+    define("SS_BACKUP_DB_SERVICE", "");
+    define("SS_BACKUP_DB_UNIQUE_NAME", "");
+    define("SS_BACKUP_ASM_HOSTNAME", "");
+    define("SS_BACKUP_ASM_SERVICE", "");
+    if (AWS == TRUE) {
+        define("SS_BACKUP_AWS_INSTANCE_ID", 'i-e504b3b0');
+        define("SS_BACKUP_AWS_REGION", 'singapore');
+    }
 
-define("SS_LOG_ARCHIVE_DEST_ID", '2');
-$array_ss_protection_mode = array('MAXIMUM AVAILABILITY', 'MAXIMUM PERFORMANCE');
-$array_ss_compression = array('ENABLE', 'DISABLE');
+    define("SS_LOG_ARCHIVE_DEST_ID", '2');
+    $array_ss_protection_mode = array('MAXIMUM AVAILABILITY', 'MAXIMUM PERFORMANCE');
+    $array_ss_compression = array('ENABLE', 'DISABLE');
 }
 
 define("SS_ORACLE_HOME", '/u01/base/db');
@@ -71,3 +88,4 @@ define("SS_ORACLE_HOME", '/u01/base/db');
 
 // Error
 define("ERROR", "ERROR");
+?>

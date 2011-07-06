@@ -34,7 +34,11 @@ foreach ($array_all_disk as $disk) {
     } elseif ($disk['HEADER_STATUS'] == 'MEMBER' && $disk['STATE'] == 'DROPPING') {
         echo "<div class='switch intermediate' style='clear:both; margin-bottom:2px;'>\n";
     } else {
-        echo "<div class='switch unselected' style='clear:both; margin-bottom:2px;' disk_path='" . $disk['PATH'] . "'>\n";
+        if (AWS == TRUE) {
+            echo "<div class='switch unselected' action='detach' style='clear:both; margin-bottom:2px;' disk_path='" . $disk['PATH'] . "'>\n";
+        } else {
+            echo "<div class='switch unselected' action='add' style='clear:both; margin-bottom:2px;' disk_path='" . $disk['PATH'] . "'>\n";
+        }
     }
     echo "<div style='float:left; width:30%;'>\n";
     echo str_replace('/dev/', '', $disk['PATH']);
@@ -49,9 +53,23 @@ foreach ($array_all_disk as $disk) {
     } elseif ($disk['HEADER_STATUS'] == 'MEMBER' && $disk['STATE'] == 'DROPPING') {
         echo "&nbsp;";
     } else {
-        echo "Add";
+        if (AWS == TRUE) {
+            echo "Detach";
+        } else {
+            echo "Add";
+        }
     }
     echo "</span>\n";
+    echo "&nbsp;";
+    echo "</div>\n";
+    echo "</div>\n";
+}
+if (AWS == TRUE) {
+    echo "<div class='switch unselected' action='add' style='clear:both; margin-bottom:2px;' disk_path='aws_new'>\n";
+    echo "<div style='float:left; width:30%;'>NEW</div>\n";
+    echo "<div style='text-align:right; float:left; width:30%;'>" . AWS_VOLUME_SIZE . " GB</div>\n";
+    echo "<div style='text-align:right; width:100%;'>\n";
+    echo "<span class='hidden' style='display:none;'>Add</span>\n";
     echo "&nbsp;";
     echo "</div>\n";
     echo "</div>\n";
