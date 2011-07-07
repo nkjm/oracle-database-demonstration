@@ -74,8 +74,8 @@ if (SS == TRUE) {
     define("SS_BACKUP_ASM_HOSTNAME", "");
     define("SS_BACKUP_ASM_SERVICE", "");
     if (AWS == TRUE) {
-        define("SS_BACKUP_AWS_INSTANCE_ID", 'i-e504b3b0');
-        define("SS_BACKUP_AWS_REGION", 'singapore');
+        define("SS_BACKUP_AWS_INSTANCE_ID", '');
+        define("SS_BACKUP_AWS_REGION", '');
     }
 
     define("SS_LOG_ARCHIVE_DEST_ID", '2');
