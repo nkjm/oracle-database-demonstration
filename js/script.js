@@ -51,9 +51,9 @@ $(function(){
                                                     }
     	                                        });
                                             } else {
-                                                $.confirm.hide(); 
                                                 $('#middle').load('/ #middle', function(){
                                                     $.getScript('/js/script.js');
+                                                    $.confirm.hide(); 
                                                     $('#new_storage_form').slideToggle();
                                                 });
                                             }
@@ -100,9 +100,9 @@ $(function(){
                                                     }
     	                                        });
                                             } else {
-                                                $.confirm.hide(); 
                                                 $('#middle').load('/ #middle', function(){
                                                     $.getScript('/js/script.js');
+                                                    $.confirm.hide(); 
                                                     $('#new_storage_form').slideToggle();
                                                 });
                                             }
@@ -159,9 +159,9 @@ $(function(){
                                                     }
     	                                        });
                                             } else {
-                                                $.confirm.hide(); 
                                                 $('#middle').load('/ #middle', function(){
                                                     $.getScript('/js/script.js');
+                                                    $.confirm.hide(); 
                                                 });
                                             }
                                         },'json'
@@ -224,9 +224,9 @@ $(function(){
                                                     }
     	                                        });
                                             } else {
-                                                $.confirm.hide(); 
                                                 $('#middle').load('/ #middle', function(){
                                                     $.getScript('/js/script.js');
+                                                    $.confirm.hide(); 
                                                 });
                                             }
                                         },'json'
@@ -268,9 +268,9 @@ $(function(){
                         }
     	            });
                 } else {
-                    $.confirm.hide(); 
                     $('#middle').load('/ #middle', function(){
                         $.getScript('/js/script.js');
+                        $.confirm.hide(); 
                     });
                 }
             },'json'
@@ -302,9 +302,9 @@ $(function(){
                         }
     	            });
                 } else {
-                    $.confirm.hide(); 
                     $('#middle').load('/ #middle', function(){
                         $.getScript('/js/script.js');
+                        $.confirm.hide(); 
                     });
                 }
             },'json'
@@ -396,11 +396,11 @@ $(function(){
                         }
     	            });
                 } else {
-                    $.confirm.hide(); 
                     $('#new_db_form :text').attr('value', '');
                     $('#new_db_form :password').attr('value', '');
                     $('#middle').load('/ #middle', function(){
                         $.getScript('/js/script.js');
+                        $.confirm.hide(); 
                     });
                 }
             },'json'
@@ -432,9 +432,9 @@ $(function(){
                         }
     	            });
                 } else {
-                    $.confirm.hide(); 
                     $('#middle').load('/ #middle', function(){
                         $.getScript('/js/script.js');
+                        $.confirm.hide(); 
                     });
                 }
             },'json'
@@ -472,9 +472,9 @@ $(function(){
                         }
     	            });
                 } else {
-                    $.confirm.hide(); 
                     $('#middle').load('/ #middle', function(){
                         $.getScript('/js/script.js');
+                        $.confirm.hide(); 
                     });
                 }
             },'json'
@@ -506,9 +506,9 @@ $(function(){
                         }
     	            });
                 } else {
-                    $.confirm.hide(); 
                     $('#middle').load('/ #middle', function(){
                         $.getScript('/js/script.js');
+                        $.confirm.hide(); 
                     });
                 }
             },'json'
@@ -570,9 +570,9 @@ $(function(){
                                                     }
     	                                        });
                                             } else {
-                                                $.confirm.hide(); 
                                                 $('#middle').load('/ #middle', function(){
                                                     $.getScript('/js/script.js');
+                                                    $.confirm.hide(); 
                                                 });
                                             }
                                         },'json'
