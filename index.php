@@ -89,8 +89,10 @@ if (SS == TRUE) {
         $error->set_msg("Failed to connect to Database.");
         $error->skip = TRUE;
     }
-    $aws_instance_id = AWS_INSTANCE_ID;
-    $aws_region = AWS_REGION;
+    if (AWS == TRUE) {
+        $aws_instance_id = AWS_INSTANCE_ID;
+        $aws_region = AWS_REGION;
+    }
 }
 
 if ($error->skip == TRUE) {
