@@ -13,7 +13,13 @@ class Parse {
 
     public function password($input) {
         global $error;
-        return(self::id($input));
+        $pattern = '/^[\w_-]+$/';
+        $trimmed_input = trim($input);
+        if (!preg_match($pattern, $trimmed_input)) {
+            $error->set_msg("Invalid string. Available letters are [a-zA-Z0-9_-].");
+            return(ERROR);
+        }
+        return($trimmed_input);
     }
     
     public function select($input, $array_option) {
